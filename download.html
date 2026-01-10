@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DOWNLOAD</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      text-align: center;
+      padding: 30px;
+      margin: 0;
+      position: relative;
+      z-index: 0;
+    }
+
+    h1 {
+      color: rgba(20, 184, 206, 0.7);
+    }
+
+    .particle-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: -1;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    }
+
+    .particle {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      opacity: 0.6;
+      animation: floatUp 10s linear infinite;
+    }
+
+    .particle:nth-child(n) {
+      width: 10px;
+      height: 10px;
+      left: calc(10% * var(--i));
+      top: 100%;
+      animation-delay: calc(1s * var(--i));
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0); opacity: 0.6; }
+      100% { transform: translateY(-110vh); opacity: 0; }
+    }
+
+    .site-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 30px;
+      background-color: #111;
+      color: white;
+    }
+
+    .logo {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #14b8ce;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    }
+
+    .navbar a {
+      margin: 0 10px;
+      color: white;
+      text-decoration: none;
+    }
+
+    .default-player {
+      margin-top: 100px;
+    }
+
+    .custom-video {
+      width: 80%;
+      max-width: 700px;
+      border-radius: 10px;
+      border: 2px solid #007bff;
+    }
+
+    .video-controls {
+      margin-top: 15px;
+    }
+
+    .video-controls button, .video-controls input[type="range"] {
+      margin: 0 5px;
+    }
+
+    .video-header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .logo-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+
+    .brand-name {
+      color: #0ff;
+      font-size: 24px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Particle background -->
+  <div class="particle-background">
+    <div class="particle" style="--i:1;"></div>
+    <div class="particle" style="--i:2;"></div>
+    <div class="particle" style="--i:3;"></div>
+    <div class="particle" style="--i:4;"></div>
+    <div class="particle" style="--i:5;"></div>
+    <div class="particle" style="--i:6;"></div>
+    <div class="particle" style="--i:7;"></div>
+    <div class="particle" style="--i:8;"></div>
+    <div class="particle" style="--i:9;"></div>
+    <div class="particle" style="--i:10;"></div>
+  </div>
+
+  <header class="site-header">
+    <div class="header-left">
+      <img src="images/deflogo.jpg" alt="Logo" class="logo" />
+      <h1 class="site-name">DE-FAULT MOVIES</h1>
+    </div>
+    <nav class="navbar">
+      <a href="signin.html?">SIGNIN</a>
+      <a href="categories.html?">CATEGORIES</a>
+      <a href="download.html?" class="active">DOWNLOAD</a>
+      <a href="player.html?">PLAYER</a>
+      <a href="trailer.html?">TRAILER</a>
+    </nav>
+  </header>
+</body>

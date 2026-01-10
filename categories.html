@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Movie Box</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      text-align: center;
+      padding: 30px;
+      margin: 0;
+      position: relative;
+      z-index: 0;
+    }
+
+    h1 {
+      color: rgba(20, 184, 206, 0.7);
+    }
+
+    .image-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* ✅ updated */
+  gap: 65px; /* ✅ updated: reduced spacing for better layout */
+  padding: 25px;
+  position: relative;
+  z-index: 1;
+}
+
+    .card {
+      width: 100%;
+      height: 220px;
+      perspective: 1000px;
+    }
+
+    .card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+    }
+
+    .card:hover .card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 10px;
+      backface-visibility: hidden;
+      overflow: hidden;
+      border: 3px solid #555;
+    }
+
+    .card-front img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .card-back {
+      background-color: #ffffff;
+      color: #000;
+      transform: rotateY(180deg);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border-color: #007bff;
+    }
+
+    .order-btn {
+      background-color: #007bff;
+      color: beige;
+      border: none;
+      padding: 12px 25px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+      text-decoration: none;
+    }
+
+    .order-btn:hover {
+      background-color: #0056b3;
+      transform: scale(1.05);
+    }
+
+    .particle-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: -1;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    }
+
+    .particle {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      opacity: 0.6;
+      animation: floatUp 10s linear infinite;
+    }
+
+    .particle:nth-child(n) {
+      top: 100%;
+    }
+
+    .particle:nth-child(1) { width: 15px; height: 15px; left: 10%; animation-delay: 0s; }
+    .particle:nth-child(2) { width: 10px; height: 10px; left: 20%; animation-delay: 2s; }
+    .particle:nth-child(3) { width: 20px; height: 20px; left: 35%; animation-delay: 4s; }
+    .particle:nth-child(4) { width: 12px; height: 12px; left: 50%; animation-delay: 1.5s; }
+    .particle:nth-child(5) { width: 18px; height: 18px; left: 65%; animation-delay: 3.5s; }
+    .particle:nth-child(6) { width: 10px; height: 10px; left: 75%; animation-delay: 5s; }
+    .particle:nth-child(7) { width: 15px; height: 15px; left: 80%; animation-delay: 7s; }
+    .particle:nth-child(8) { width: 8px; height: 8px; left: 90%; animation-delay: 6s; }
+    .particle:nth-child(9) { width: 13px; height: 13px; left: 40%; animation-delay: 8s; }
+    .particle:nth-child(10) { width: 16px; height: 16px; left: 30%; animation-delay: 9s; }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) translateX(0); opacity: 0.6; }
+      100% { transform: translateY(-110vh) translateX(15px); opacity: 0; }
+    }
+
+    .search-container {
+      margin-bottom: 20px;
+    }
+
+    .watch-now-btn {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .watch-now-btn:hover {
+      background-color: #007bff;
+    }
+
+    .site-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background-color: #111;
+      color: white;
+    }
+
+    .logo {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid #14b8ce;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    }
+
+    .navbar a {
+      margin: 0 10px;
+      color: white;
+      text-decoration: none;
+    }
+
+    .active {
+      color: #14b8ce;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="particle-background">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <header class="site-header">
+    <div class="header-left">
+      <img src="images/deflogo.jpg" alt="Logo" class="logo" />
+      <h1 class="site-name">Judah Stream</h1>
+    </div>
+    <nav class="navbar">
+      <a href="signin.html">SIGNIN</a>
+      <a href="categories.html" class="active">CATEGORIES</a>
+      <a href="download.html">DOWNLOAD</a>
+      <a href="player.html">PLAYER</a>
+      <a href="trailer.html">TRAILER</a>
+    </nav>
+  </header>
+
+  <div style="height: 80px;"></div>
+
+  <div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search movies..." oninput="searchMovies()" />
+    <button onclick="ClearSearch()">Clear</button>
+  </div>
+
+  <div class="image-row">
+    <div class="card">
+      <div class="card-inner">
+        <div class="card-front">
+          <img src="images/M5.jpg" alt="VINLAND SAGA" />
+        </div>
+        <div class="card-back">
+          <p><strong>MOVIE NAME:</strong> VINLAND SAGA</p>
+          <a href="player.html?video=videos/Despicable Me 4.mp4" class="order-btn">WATCH NOW</a>
+          <a href="download.html?video=videos/Despicable Me 4.mp4" class="order-btn">DOWNLOAD</a>
+          <a href="trailer.html?video=videos/Despicable Me 4.mp4" class="order-btn">TRAILER</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-inner">
+        <div class="card-front">
+          <img src="images/M3.jpeg" alt="VIKING WOLF" />
+        </div>
+        <div class="card-back">
+          <p><strong>MOVIE NAME:</strong> VIKING WOLF</p>
+          <a href="player.html?video=videos/Viking Wolf.mp4" class="order-btn">WATCH NOW</a>
+          <a href="download.html?video=videos/Viking Wolf.mp4" class="order-btn">DOWNLOAD</a>
+          <a href="trailer.html?video=videos/Viking Wolf.mp4" class="order-btn">TRAILER</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-inner">
+        <div class="card-front">
+          <img src="images/pnland.jpeg" alt="THE PROMISED NEVER LAND" />
+        </div>
+        <div class="card-back">
+          <p><strong>MOVIE NAME:</strong> THE PROMISED NEVER LAND</p>
+          <a href="player.html?video=videos/The Promised Never Land.mp4" class="order-btn">WATCH NOW</a>
+          <a href="download.html?video=videos/The Promised Never Land.mp4" class="order-btn">DOWNLOAD</a>
+          <a href="trailer.html?video=videos/The Promised Never Land.mp4" class="order-btn">TRAILER</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="image-row">
+    <div class="card">
+      <div class="card-inner">
+        <div class="card-front">
+          <img src="images/M4.jpeg" alt=" WICKED" />
+        </div>
+        <div class="card-back">
+          <p><strong>MOVIE NAME:</strong> WICKED</p>
+          <a href="player.html?video=videos/Vinland Saga.mp4" class="order-btn">WATCH NOW</a>
+          <a href="download.html?video=videos/Vinland Saga.mp4" class="order-btn">DOWNLOAD</a>
+          <a href="trailer.html?video=videos/Vinland Saga.mp4" class="order-btn">TRAILER</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-inner">
+        <div class="card-front">
+          <img src="images/M6.jpeg" alt="THE WHEEL OF TIME" />
+        </div>
+        <div class="card-back">
+          <p><strong>MOVIE NAME:</strong> THE WHEEL OF TIME</p>
+          <a href="player.html?video=videos/Viking Wolf.mp4" class="order-btn">WATCH NOW</a>
+          <a href="download.html?video=videos/Viking Wolf.mp4" class="order-btn">DOWNLOAD</a>
+          <a href="trailer.html?video=videos/Viking Wolf.mp4" class="order-btn">TRAILER</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-inner">
+        <div class="card-front">
+          <img src="images/M2.jpeg" alt="BLOOD OF ZEUS" />
+        </div>
+        <div class="card-back">
+          <p><strong>MOVIE NAME:</strong> BLOOD OF ZEUS</p>
+          <a href="player.html?video=videos/The Promised Never Land.mp4" class="order-btn">WATCH NOW</a>
+          <a href="download.html?video=videos/The Promised Never Land.mp4" class="order-btn">DOWNLOAD</a>
+          <a href="trailer.html?video=videos/The Promised Never Land.mp4" class="order-btn">TRAILER</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="image-row">
+    <div class="card">
+      <div class="card-inner">
+        <div class="card-front">
+          <img src="images/M 9.jpeg" alt="THE MONKEY" />
+        </div>
+        <div class="card-back">
+          <p><strong>MOVIE NAME:</strong> THE MONKEY</p>
+          <a href="player.html?video=videos/Vinland Saga.mp4" class="order-btn">WATCH NOW</a>
+          <a href="download.html?video=videos/Vinland Saga.mp4" class="order-btn">DOWNLOAD</a>
+          <a href="trailer.html?video=videos/Vinland Saga.mp4" class="order-btn">TRAILER</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-inner">
+        <div class="card-front">
+          <img src="images/M 11.jpeg" alt="127 SECONDS" />
+        </div>
+        <div class="card-back">
+          <p><strong>MOVIE NAME:</strong> 127 SECONDS</p>
+          <a href="player.html?video=videos/Viking Wolf.mp4" class="order-btn">WATCH NOW</a>
+          <a href="download.html?video=videos/Viking Wolf.mp4" class="order-btn">DOWNLOAD</a>
+          <a href="trailer.html?video=videos/Viking Wolf.mp4" class="order-btn">TRAILER</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-inner">
+        <div class="card-front">
+          <img src="images/M 10.jpg" alt="US" />
+        </div>
+        <div class="card-back">
+          <p><strong>MOVIE NAME:</strong> US</p>
+          <a href="player.html?video=videos/The Promised Never Land.mp4" class="order-btn">WATCH NOW</a>
+          <a href="download.html?video=videos/The Promised Never Land.mp4" class="order-btn">DOWNLOAD</a>
+          <a href="trailer.html?video=videos/The Promised Never Land.mp4" class="order-btn">TRAILER</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function searchMovies() {
+      const input = document.getElementById("searchInput").value.toLowerCase();
+      const cards = document.querySelectorAll(".card");
+
+      cards.forEach(card => {
+        const movieText = card.innerText.toLowerCase();
+        card.style.display = movieText.includes(input) ? "block" : "none";
+      });
+    }
+
+    function ClearSearch() {
+      const input = document.getElementById("searchInput");
+      input.value = "";
+      searchMovies();
+    }
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,223 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PLAYER</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      text-align: center;
+      padding: 30px;
+      margin: 0;
+      position: relative;
+      z-index: 0;
+      background-color: #000;
+      color: #fff;
+    }
+
+    h1, h2 {
+      color: rgba(20, 184, 206, 0.7);
+    }
+
+    .particle-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: -1;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    }
+
+    .particle {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      opacity: 0.6;
+      animation: floatUp 10s linear infinite;
+    }
+
+    .particle:nth-child(n) {
+      width: 10px;
+      height: 10px;
+      left: calc(10% * var(--i));
+      top: 100%;
+      animation-delay: calc(1s * var(--i));
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0); opacity: 0.6; }
+      100% { transform: translateY(-110vh); opacity: 0; }
+    }
+
+    .site-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 30px;
+      background-color: #111;
+      color: white;
+    }
+
+    .logo {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid #14b8ce;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    }
+
+    .navbar a {
+      margin: 0 10px;
+      color: white;
+      text-decoration: none;
+    }
+
+    .default-player {
+      margin-top: 100px;
+    }
+
+    .custom-video {
+      width: 80%;
+      max-width: 700px;
+      border-radius: 10px;
+      border: 2px solid #007bff;
+    }
+
+    .video-controls {
+      margin-top: 15px;
+    }
+
+    .video-controls button,
+    .video-controls input[type="range"] {
+      margin: 0 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Particle background -->
+  <div class="particle-background">
+    <div class="particle" style="--i:1;"></div>
+    <div class="particle" style="--i:2;"></div>
+    <div class="particle" style="--i:3;"></div>
+    <div class="particle" style="--i:4;"></div>
+    <div class="particle" style="--i:5;"></div>
+    <div class="particle" style="--i:6;"></div>
+    <div class="particle" style="--i:7;"></div>
+    <div class="particle" style="--i:8;"></div>
+    <div class="particle" style="--i:9;"></div>
+    <div class="particle" style="--i:10;"></div>
+  </div>
+
+  <header class="site-header">
+    <div class="header-left">
+      <img src="images/deflogo.jpg" alt="Logo" class="logo" />
+      <h1 class="site-name">DE-FAULT MOVIES</h1>
+    </div>
+    <nav class="navbar">
+      <a href="signin.html">SIGNIN</a>
+      <a href="categories.html">CATEGORIES</a>
+      <a href="download.html?">DOWNLOAD</a>
+      <a href="player.html?" class="active">PLAYER</a>
+      <a href="trailer.html?">TRAILER</a>
+    </nav>
+  </header>
+
+  <div style="height: 120px;"></div>
+
+  <div class="default-player">
+    <div class="video-header">
+      <img src="images/deflogo.jpg" alt="DE-FAULT Logo" class="logo-icon">
+      <h2 class="brand-name">Now Playing: <span id="videoName">Loading...</span></h2>
+    </div>
+
+    <video id="video" controls class="custom-video" poster="default-thumb.jpg">
+      <source id="videoSource" src="" type="video/mp4">
+      Your browser does not support HTML5 video.
+    </video>
+
+    <div class="video-controls">
+      <button onclick="video.currentTime -= 10">⏪</button>
+      <button onclick="togglePlayPause()">▶️</button>
+      <button onclick="video.currentTime += 10">⏩</button>
+      <input type="range" id="seekBar" value="0" step="1">
+      <button onclick="toggleMute()">🔊</button>
+      <input type="range" id="volumeBar" min="0" max="1" step="0.01" value="1">
+      <button onclick="toggleFullscreen()">⛶</button>
+    </div>
+  </div>
+
+  <script>
+    const video = document.getElementById("video");
+    const seekBar = document.getElementById("seekBar");
+    const volumeBar = document.getElementById("volumeBar");
+    const nameEl = document.getElementById("videoName");
+
+    // Load video from query param
+    const urlParams = new URLSearchParams(window.location.search);
+    const videoFile = urlParams.get("video");
+
+    if (videoFile) {
+      const sourceEl = document.getElementById("videoSource");
+      sourceEl.src = videoFile;
+      video.load();
+
+      // Set video title
+      const cleanName = decodeURIComponent(videoFile.split("/").pop()
+                           .replace(/\.mp4$/, "")
+                           .replace(/-/g, " "));
+      nameEl.textContent = cleanName.toUpperCase();
+
+      // Update seek bar as video plays
+      video.addEventListener("timeupdate", () => {
+        seekBar.value = video.currentTime;
+        seekBar.max = video.duration;
+      });
+
+      // Seek when slider is moved
+      seekBar.addEventListener("input", () => {
+        video.currentTime = seekBar.value;
+      });
+
+      // Volume control
+      volumeBar.addEventListener("input", (e) => {
+        video.volume = e.target.value;
+      });
+    } else {
+      alert("No video file provided in the link.");
+    }
+
+    function togglePlayPause() {
+      if (video.paused) {
+        video.play();
+      } else {
+        video.pause();
+      }
+    }
+
+    function toggleMute() {
+      video.muted = !video.muted;
+    }
+
+    function toggleFullscreen() {
+      if (video.requestFullscreen) {
+        video.requestFullscreen();
+      } else if (video.webkitRequestFullscreen) {
+        video.webkitRequestFullscreen();
+      } else if (video.msRequestFullscreen) {
+        video.msRequestFullscreen();
+      }
+    }
+  </script>
+
+</body>
+</html>

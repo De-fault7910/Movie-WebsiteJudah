@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment - DE-FAULT MOVIES</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      color: white;
+      gap: 20px;
+    }
+
+    .payment-container {
+      background: #1f1f1f;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px #000;
+      width: 100%;
+      max-width: 450px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #14b8ce;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      margin-top: 5px;
+      border-radius: 6px;
+      border: none;
+      box-sizing: border-box;
+    }
+
+    .btn {
+      background-color: #14b8ce;
+      color: white;
+      padding: 12px;
+      width: 100%;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    .btn:hover {
+      background-color: #0ca4bb;
+    }
+
+    .email-preview {
+      background: #1f1f1f;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      max-width: 450px;
+      width: 100%;
+      text-align: center;
+      font-size: 14px;
+      color: #ddd;
+    }
+  </style>
+</head>
+<body>
+  <div class="payment-container">
+    <h2>Make a Payment</h2>
+    <form action="categories.html" method="GET">
+      <label for="plan">Select Plan</label>
+      <select id="plan" name="plan" required>
+        <option value="daily">$1 - Daily Access</option>
+        <option value="monthly">$6 - Monthly Access</option>
+      </select>
+
+      <label for="paymentType">Payment Method</label>
+      <select id="paymentType" name="paymentType" required>
+        <option value="momo">Mobile Money</option>
+        <option value="card">Credit/Debit Card</option>
+      </select>
+
+      <label for="phone">Phone or Card Number</label>
+      <input type="tel" id="phone" name="phone" placeholder="Enter your number" required>
+
+      <input type="hidden" id="email" name="email" />
+
+      <button type="submit" class="btn">Confirm Payment</button>
+    </form>
+  </div>
+
+  <div class="email-preview" id="emailDisplay">
+    <!-- Email will show here -->
+  </div>
+
+ <script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const emailFromURL = urlParams.get("email");
+  const planFromURL = urlParams.get("plan");
+
+  if (emailFromURL) {
+    document.getElementById("email").value = emailFromURL;
+    document.getElementById("emailDisplay").innerText = `Signed in as: ${emailFromURL}`;
+  }
+
+  if (planFromURL) {
+    const planSelect = document.getElementById("plan");
+    const planOption = [...planSelect.options].find(opt => opt.value === planFromURL);
+    if (planOption) {
+      planOption.selected = true;
+    }
+  }
+</script>
+
+</body>
+</html>

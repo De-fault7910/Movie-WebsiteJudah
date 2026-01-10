@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up - DE-FAULT MOVIES</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      color: white;
+      gap: 20px;
+    }
+
+    .container, .payment-box {
+      background: #1f1f1f;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h2, h3 {
+      text-align: center;
+      color: #14b8ce;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+
+    .btn {
+      width: 100%;
+      background-color: #14b8ce;
+      color: white;
+      border: none;
+      padding: 12px;
+      margin-top: 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .btn:hover {
+      background-color: #0ca4bb;
+    }
+
+    .form-link {
+      display: block;
+      text-align: center;
+      margin-top: 15px;
+      color: #ddd;
+      text-decoration: none;
+    }
+
+    .form-link:hover {
+      color: #fff;
+    }
+
+    .payment-option {
+      margin-top: 10px;
+    }
+
+    .payment-option label {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .payment-option input[type="radio"] {
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Create Your Account</h2>
+    <form onsubmit="event.preventDefault();" id="signupForm">
+      <input type="text" name="fullname" placeholder="Full Name" required>
+      <input type="email" id="email" name="email" placeholder="Email Address" required>
+      <input type="text" name="phone" placeholder="Phone Number" required>
+      <input type="password" name="password" placeholder="Create Password" required>
+      <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+      <button type="submit" class="btn">Sign Up</button>
+      <a href="signin.html" class="form-link">Already have an account? Sign In</a>
+    </form>
+  </div>
+
+  <div class="payment-box">
+    <h3>Choose Your Plan</h3>
+    <div class="payment-option">
+      <label><input type="radio" name="plan" value="daily" checked> $1 - Daily Access</label>
+      <label><input type="radio" name="plan" value="monthly"> $6 - Monthly Access</label>
+    </div>
+    <button class="btn" onclick="goToPayment()">Proceed to Payment</button>
+  </div>
+
+  <script>
+    function goToPayment() {
+      const email = document.getElementById("email").value;
+      const plan = document.querySelector('input[name="plan"]:checked').value;
+      if (email.trim()) {
+        window.location.href = `payment.html?email=${encodeURIComponent(email)}&plan=${plan}`;
+      } else {
+        alert("Please enter your email before proceeding to payment.");
+      }
+    }
+  </script>
+</body>
+</html>
