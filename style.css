@@ -334,6 +334,136 @@ h1 {
   0%, 100% { transform: scale(1); opacity: 1; }
   50% { transform: scale(1.1); opacity: 0.7; }
 }
+/* ===============================
+   MOBILE & TABLET RESPONSIVENESS
+   =============================== */
+
+@media screen and (max-width: 768px) {
+
+  /* BODY */
+  body {
+    padding: 15px;
+  }
+
+  /* HEADER */
+  .site-header {
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+    gap: 12px;
+  }
+
+  .header-left {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .logo {
+    width: 60px;
+    height: 60px;
+  }
+
+  .site-name {
+    font-size: 1.6rem;
+    letter-spacing: 1px;
+  }
+
+  .navbar {
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .navbar a {
+    font-size: 0.9rem;
+  }
+
+  /* SEARCH */
+  .search-container {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .search-container input {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .search-container button {
+    width: 100%;
+    max-width: 200px;
+  }
+
+  /* GRID */
+  .image-row {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 18px;
+    padding: 10px;
+  }
+
+  /* CARDS */
+  .card {
+    width: 100%;
+    max-width: 100%;
+    height: 260px;
+    margin: 0 auto;
+  }
+
+  /* DISABLE HOVER FLIP (NOT MOBILE FRIENDLY) */
+  .card:hover .card-inner {
+    transform: none;
+  }
+
+  /* CARD BACK CONTENT */
+  .card-back {
+    padding: 10px;
+  }
+
+  .order-btn {
+    width: 90%;
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  /* VIDEO PLAYER */
+  .default-player {
+    margin-top: 120px;
+    width: 95%;
+  }
+
+  .video-controls {
+    justify-content: center;
+  }
+
+  .video-controls button {
+    font-size: 16px;
+    padding: 8px 12px;
+  }
+}
+
+/* ===============================
+   VERY SMALL PHONES
+   =============================== */
+
+@media screen and (max-width: 480px) {
+
+  .site-name {
+    font-size: 1.4rem;
+  }
+
+  .navbar a {
+    font-size: 0.85rem;
+  }
+
+  .card {
+    height: 240px;
+  }
+
+  .order-btn {
+    font-size: 13px;
+  }
+}
+
 
 
 
